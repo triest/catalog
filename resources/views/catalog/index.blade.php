@@ -53,8 +53,10 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
                                     </div>
                                 </div>
+                                {{ $goods->links() }}
                             </div>
                         </div>
                     </div>

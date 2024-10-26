@@ -43,7 +43,13 @@ class User extends Authenticatable
     ];
 
 
-    public function shoppingCarts(){
+    public function shoppingCarts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(ShoppingCart::class);
+    }
+
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

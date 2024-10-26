@@ -25,7 +25,7 @@ class ShoppingCartService
                  ->get();
         }
 
-        return $shoppingCarts;
+        return $shoppingCarts->load('good');
     }
 
     public function store(StoreShoppingCardRequest $request)

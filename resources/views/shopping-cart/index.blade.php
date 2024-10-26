@@ -15,8 +15,13 @@
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="table-responsive px-3">
+                                        <form method="post" action="{{route('order.store')}}">
+                                            @method('POST')
+                                            @csrf
                                         <table class="table table-striped align-middle table-nowrap">
                                             <tbody>
+
+
                                             @foreach($carts as $cart)
                                                 <tr>
                                                     <td>
@@ -25,6 +30,7 @@
                                                                 src="https://www.bootdey.com/image/380x380/00FFFF/000000"
                                                                 class="img-fluid rounded" alt="">
                                                         </div>
+                                                        <input type="hidden"  name="card[cards][]" value="{{$cart->id}}">
                                                     </td>
 
                                                     <td>
@@ -47,25 +53,26 @@
                                                         <h3 class="mb-0 font-size-20"><span
                                                                 class="text-muted me-2"></span><b>{{$cart->quantity}}</b>
                                                         </h3>
+
                                                     </td>
 
                                                     <td>
-                                                        <form method="post" action="{{route('shopping-cart.store')}}">
-                                                            @method('POST')
-                                                            @csrf
-                                                            <input type="number" name="quantity">
-                                                            <input type="hidden" name="good_id" value="{{$cart->id}}">
-                                                            <button type="submit"
-                                                                    class="btn btn-primary waves-effect waves-light"><i
-                                                                    class="bx bx-cart me-2 font-size-15 align-middle"></i>
-                                                                Add
-                                                            </button>
-                                                        </form>
+                                                            <input name="card[quantity][]" value="">
+
                                                     </td>
                                                 </tr>
+
                                             @endforeach
+
+
                                             </tbody>
                                         </table>
+                                        <button type="submit"
+                                                class="btn btn-primary waves-effect waves-light"><i
+                                                class="bx bx-cart me-2 font-size-15 align-middle"></i>
+                                            Add
+                                        </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

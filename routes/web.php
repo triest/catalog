@@ -25,3 +25,5 @@ Route::resource('shopping-cart',\App\Http\Controllers\ShoppingCartController::cl
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('order',\App\Http\Controllers\OrderController::class)->middleware('auth');
