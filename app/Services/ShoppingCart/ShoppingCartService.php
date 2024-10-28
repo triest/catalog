@@ -11,18 +11,17 @@ use Illuminate\Support\Facades\DB;
 class ShoppingCartService
 {
 
-    public function index(){
-
+    public function index()
+    {
         $user = Auth::user();
 
         $session_id = session()->getId();
 
         if ($user) {
             $shoppingCarts = $user->shoppingCarts;
-
-        }else{
-             $shoppingCarts = ShoppingCart::query()->where('session_id', $session_id)
-                 ->get();
+        } else {
+            $shoppingCarts = ShoppingCart::query()->where('session_id', $session_id)
+                ->get();
         }
 
         return $shoppingCarts->load('good');

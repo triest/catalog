@@ -28,8 +28,8 @@ class Order extends Model
         $count = 0;
         foreach ($goods as $orderGood) {
             $string .= $orderGood?->good?->name;
-            if($count<$totalCount-1){
-                $string .=', ';
+            if ($count < $totalCount - 1) {
+                $string .= ', ';
             }
             $count++;
         }

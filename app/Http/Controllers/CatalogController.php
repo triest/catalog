@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexCatalogRequest;
 use App\Services\Catalog\CatalogService;
-use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
@@ -19,9 +18,9 @@ class CatalogController extends Controller
     }
 
 
-    public function index(IndexCatalogRequest $request){
-
-        $goods =  $this->catalogService->index($request->validated());
+    public function index(IndexCatalogRequest $request)
+    {
+        $goods = $this->catalogService->index($request->validated());
 
         return view('catalog.index')->with(compact('goods'));
     }

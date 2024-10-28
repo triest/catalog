@@ -25,7 +25,8 @@ class StoreShoppingCardRequest extends FormRequest
     public function rules()
     {
         return [
-            'good_id' => 'required|integer', Rule::exists('goods', 'id'),
+            'good_id' => 'required|integer',
+            Rule::exists('goods', 'id'),
             'quantity' => 'required|integer|min:1',
         ];
     }

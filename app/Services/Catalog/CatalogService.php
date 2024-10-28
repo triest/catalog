@@ -9,7 +9,8 @@ class CatalogService
 
     public const GoodsPerPage = 50;
 
-    public function index(){
+    public function index()
+    {
         $query = Good::query();
 
         return $query->paginate(self::GoodsPerPage);

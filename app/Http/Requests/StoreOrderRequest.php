@@ -26,10 +26,10 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'card' => 'array',
-            'card.cards' =>'array',
-            'card.cards.*' =>[ 'integer',Rule::exists('goods','id')],
+            'card.cards' => 'array',
+            'card.cards.*' => ['integer', Rule::exists('goods', 'id')],
             'card.quantity' => 'array',
-            'card.quantity.*' =>[ 'integer']
+            'card.quantity.*' => ['integer']
         ];
     }
 }
