@@ -5,6 +5,7 @@ namespace App\Services\ShoppingCart;
 use App\Http\Requests\StoreShoppingCardRequest;
 use App\Models\Good;
 use App\Models\ShoppingCart;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -72,5 +73,18 @@ class ShoppingCartService
         DB::commit();
 
         return $shoppingCard;
+    }
+
+
+    public function price(User $user){
+         $price = 0;
+
+         $shoppingCards = $user->shoppingCarts;
+
+         foreach ($shoppingCards as $shoppingCard){
+             $price = $price + $shoppingCard->calculatePrice();
+         }
+
+         return $price;
     }
 }

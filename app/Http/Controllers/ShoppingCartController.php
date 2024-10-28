@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreShoppingCardRequest;
 use App\Services\ShoppingCart\ShoppingCartService;
+use Illuminate\Support\Facades\Auth;
 
 class ShoppingCartController extends Controller
 {
@@ -20,7 +21,10 @@ class ShoppingCartController extends Controller
     {
         $result = $this->shoppingCardService2->index();
 
-        return view('shopping-cart.index')->with(['carts' => $result]);
+
+        $price = $this->shoppingCardService2->price(Auth::user());
+
+        return view('shopping-cart.index')->with(['carts' => $result,'price' =>$price]);
     }
 
 

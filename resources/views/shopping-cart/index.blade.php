@@ -63,7 +63,7 @@
                                                 </tr>
 
                                             @endforeach
-
+                    Стоимость всех товаров в корзине: {{$price}}
 
                                             </tbody>
                                         </table>

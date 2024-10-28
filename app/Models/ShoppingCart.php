@@ -21,4 +21,12 @@ class ShoppingCart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function calculatePrice(){
+        if(!$this->good){
+            return  false;
+        }
+
+        return $this->good->price * $this->quantity;
+    }
 }
