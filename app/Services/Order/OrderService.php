@@ -10,6 +10,7 @@ use App\Models\ShoppingCart;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
@@ -26,17 +27,24 @@ class OrderService
 
     public function store(OrderDTO $orderDTO, User $user)
     {
-        DB::beginTransaction();
+        //DB::beginTransaction();
         $order = new Order();
         $order->user()->associate($user);
         $order->save();
+
         try {
             foreach ($orderDTO->card['cards'] as $key => $card) {
-                $cardId = $card;
+                $shoppingCard = ShoppingCart::query()->whereHas('user', function ($q) use ($user) {
+                    $q->where('id', $user->id);
+                })
+                    ->where('id', intval($orderDTO->card['cards'][$key]))
+                    ->first();
+
 
                 $quantity = $orderDTO->card['quantity'][$key];
 
-                $card = Good::query()->where('id', $cardId)->firstOrFail();
+                $good = $shoppingCard->good;
+
 
                 $orderGood = new OrderGood();
 
@@ -48,10 +56,12 @@ class OrderService
 
                 $orderGood->save();
 
-                $this->deleteGoodFromCard($card, $quantity);
+                $this->deleteGoodFromCard($good, $quantity);
                 //
             }
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            Log::error($exception->getLine());
             DB::rollBack();
         }
 
@@ -61,6 +71,7 @@ class OrderService
 
     private function deleteGoodFromCard(Good $good, $quantity)
     {
+        ;
         $user = Auth::user();
 
         $shoppingCard = ShoppingCart::query()

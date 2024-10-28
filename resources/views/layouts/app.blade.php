@@ -53,7 +53,7 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('shopping-cart.index') }}">Карзина</a>
+                                <a class="nav-link" href="{{ route('shopping-cart.index') }}">Корзина</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('order.index') }}">Заказы</a>
