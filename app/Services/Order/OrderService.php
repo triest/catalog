@@ -56,6 +56,7 @@ class OrderService
         }
 
         DB::commit();
+        return $order;
     }
 
     private function deleteGoodFromCard(Good $good, $quantity)
@@ -89,7 +90,7 @@ class OrderService
         $price = 0;
 
         foreach ($orders as $order) {
-            $price =+$order->calculatedPrice();
+            $price = +$order->calculatedPrice();
         }
 
         return $price;

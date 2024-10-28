@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DTO\OrderDTO;
-use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Order;
 use App\Services\Order\OrderService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -32,13 +31,13 @@ class OrderController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             abort(403);
         }
         $orders = $this->orderService->index($user);
 
 
-        return  view('orders.index')->with(['orders'=>$orders,'cost'=>$this->orderService->priceAllOrders($user)]);
+        return view('orders.index')->with(['orders' => $orders, 'cost' => $this->orderService->priceAllOrders($user)]);
     }
 
     /**
@@ -54,23 +53,32 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreOrderRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\StoreOrderRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function store(StoreOrderRequest $request)
     {
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             abort(403);
         }
 
-        $order = $this->orderService->store(new OrderDTO(...$request->validated()),$user);
+        try {
+            $order = $this->orderService->store(new OrderDTO(...$request->validated()), $user);
+        } catch (\Exception $exception) {
+            return view('orders.fail');
+        }
+        if ($order) {
+            return view('orders.success');
+        } else {
+            return view('orders.fail');
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
@@ -81,7 +89,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function edit(Order $order)
@@ -92,8 +100,8 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateOrderRequest  $request
-     * @param  \App\Models\Order  $order
+     * @param \App\Http\Requests\UpdateOrderRequest $request
+     * @param \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateOrderRequest $request, Order $order)
@@ -104,7 +112,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return \Illuminate\Http\Response
      */
     public function destroy(Order $order)
